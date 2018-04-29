@@ -1,2 +1,3 @@
-<h1>laravel-vue-formbuilder</h1>
-<p>This is a drag and drop form builder using Laravel and Vue.</p>
+<h1>Laravel 5.6 and Vue Form Builder</h1>
+<hr>
+<p>This project was inspired out of the need for a drag and drop form builder. There is a jQuery formBuilder but I couldn't find one that was built with Vue so I decided to take on the project.</p>
