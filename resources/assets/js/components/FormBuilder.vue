@@ -7,7 +7,8 @@
                     <div class='form-group' v-for="(field, index) in form">
                         <label class='control-label'>{{ field.label }}</label>
                         <span class="float-right">
-                            <a data-toggle='collapse' :href='"#" + index' role='button' aria-expanded='false'><i class="fas fa-edit"></i></a>
+                            <a class="pr-3 field-tools" data-toggle='collapse' :href='"#" + index' role='button' aria-expanded='false'><i class="fas fa-edit"></i></a>
+                            <a class="field-tools" href="#" role='button' @click.prevent="clearField(field, index)"><i class="fas fa-trash"></i></a>
                         </span>
                         <template v-if="field.input === 'input'">
                             <input :type="field.type" :name="field.name" :class="field.class" :placeholder="field.placeholder">
@@ -105,6 +106,9 @@
                     text: 'Enter Text'
                 })
             },
+            clearField (field, index) {
+                this.form.splice(index, 1);
+            },
             clearForm () {
                 this.form = []
             }
@@ -118,5 +122,8 @@
     }
     .f10 {
         font-size:10px;
+    }
+    .field-tools {
+        color: grey;
     }
 </style>

@@ -47233,7 +47233,7 @@ exports = module.exports = __webpack_require__(42)(false);
 
 
 // module
-exports.push([module.i, "\n.pointer {\n    cursor: pointer;\n}\n.f10 {\n    font-size:10px;\n}\n", ""]);
+exports.push([module.i, "\n.pointer {\n    cursor: pointer;\n}\n.f10 {\n    font-size:10px;\n}\n.field-tools {\n    color: grey;\n}\n", ""]);
 
 // exports
 
@@ -47767,6 +47767,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -47803,6 +47804,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 class: 'btn btn-primary',
                 text: 'Enter Text'
             });
+        },
+        clearField: function clearField(field, index) {
+            this.form.splice(index, 1);
         },
         clearForm: function clearForm() {
             this.form = [];
@@ -47848,6 +47852,7 @@ var render = function() {
                     _c(
                       "a",
                       {
+                        staticClass: "pr-3 field-tools",
                         attrs: {
                           "data-toggle": "collapse",
                           href: "#" + index,
@@ -47856,6 +47861,21 @@ var render = function() {
                         }
                       },
                       [_c("i", { staticClass: "fas fa-edit" })]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "field-tools",
+                        attrs: { href: "#", role: "button" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.clearField(field, index)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "fas fa-trash" })]
                     )
                   ]),
                   _vm._v(" "),
