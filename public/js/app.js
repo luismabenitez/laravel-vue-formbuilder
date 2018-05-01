@@ -47233,7 +47233,7 @@ exports = module.exports = __webpack_require__(42)(false);
 
 
 // module
-exports.push([module.i, "\n.pointer {\n    cursor: pointer;\n}\n.f10 {\n    font-size:10px;\n}\n.field-tools {\n    color: grey;\n}\n", ""]);
+exports.push([module.i, "\n.pointer {\n    cursor: pointer;\n}\n.f10 {\n    font-size:10px;\n}\n.field-tools {\n    color: grey;\n}\n.blue {\n    color: #007bff;\n}\n", ""]);
 
 // exports
 
@@ -47810,6 +47810,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         clearForm: function clearForm() {
             this.form = [];
+        },
+        helper: function helper() {
+            $('[data-toggle="inputType"]').popover({
+                title: 'Types to Choose:',
+                content: 'text, email, number, tel',
+                placement: 'left'
+            });
+            $('[data-toggle="inputName"]').popover({
+                title: 'Notes',
+                content: 'This field needs to be specific to a database column',
+                placement: 'bottom'
+            });
         }
     }
 });
@@ -48008,7 +48020,19 @@ var render = function() {
                         _c("div", { staticClass: "form-row" }, [
                           _c("div", { staticClass: "form-group col-md-4" }, [
                             _c("label", { staticClass: "f10" }, [
-                              _vm._v("Input Type (Text, email)")
+                              _vm._v("Input Type "),
+                              _c(
+                                "span",
+                                {
+                                  staticClass: "pointer blue",
+                                  attrs: {
+                                    id: "example",
+                                    "data-toggle": "inputType"
+                                  },
+                                  on: { mouseover: _vm.helper }
+                                },
+                                [_vm._v("?")]
+                              )
                             ]),
                             _vm._v(" "),
                             _c("input", {
@@ -48125,7 +48149,19 @@ var render = function() {
                                 { staticClass: "form-group col-md-4" },
                                 [
                                   _c("label", { staticClass: "f10" }, [
-                                    _vm._v("Input Name")
+                                    _vm._v("Input Name "),
+                                    _c(
+                                      "span",
+                                      {
+                                        staticClass: "pointer blue",
+                                        attrs: {
+                                          id: "example",
+                                          "data-toggle": "inputName"
+                                        },
+                                        on: { mouseover: _vm.helper }
+                                      },
+                                      [_vm._v("?")]
+                                    )
                                   ]),
                                   _vm._v(" "),
                                   _c("input", {

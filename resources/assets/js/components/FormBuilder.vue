@@ -33,7 +33,7 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
-                                        <label class="f10">Input Type (Text, email)</label>
+                                        <label class="f10">Input Type <span id="example" class="pointer blue" v-on:mouseover="helper" data-toggle="inputType">?</span></label>
                                         <input type='text' class='form-control form-control-sm' placeholder='Enter type here' v-model='field.type' >
                                     </div>
                                     <div class="form-group col-md-4" v-if="field.input === 'textarea'">
@@ -45,7 +45,7 @@
                                         <input type='text' class='form-control form-control-sm' placeholder='Enter text here' v-model='field.text' >
                                     </div>
                                     <div class="form-group col-md-4" v-if="field.input != 'button'">
-                                        <label class="f10">Input Name</label>
+                                        <label class="f10">Input Name <span id="example" class="pointer blue" v-on:mouseover="helper" data-toggle="inputName">?</span></label>
                                         <input type='text' class='form-control form-control-sm' placeholder='Enter name here' v-model='field.name' >
                                     </div>
                                     <div class="form-group col-md-4">
@@ -111,6 +111,18 @@
             },
             clearForm () {
                 this.form = []
+            },
+            helper () {
+                $('[data-toggle="inputType"]').popover({
+                    title: 'Types to Choose:',
+                    content: 'text, email, number, tel',
+                    placement: 'left'
+                })
+                $('[data-toggle="inputName"]').popover({
+                    title: 'Notes',
+                    content: 'This field needs to be specific to a database column',
+                    placement: 'bottom'
+                })
             }
         }
     }
@@ -125,5 +137,8 @@
     }
     .field-tools {
         color: grey;
+    }
+    .blue {
+        color: #007bff;
     }
 </style>
