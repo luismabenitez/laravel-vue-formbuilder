@@ -47233,7 +47233,7 @@ exports = module.exports = __webpack_require__(42)(false);
 
 
 // module
-exports.push([module.i, "\n.pointer {\n    cursor: pointer;\n}\n.f10 {\n    font-size:10px;\n}\n.field-tools {\n    color: grey;\n}\n.blue {\n    color: #007bff;\n}\n", ""]);
+exports.push([module.i, "\n.pointer {\n    cursor: pointer;\n}\n.f10 {\n    font-size:10px;\n}\n.field-tools {\n    color: grey;\n}\n.blue {\n    color: #007bff;\n}\n.asterisk {\n    color: red;\n}\n", ""]);
 
 // exports
 
@@ -47768,6 +47768,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -47784,7 +47800,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 placeholder: 'Placeholder',
                 type: 'text',
                 name: 'name',
-                class: 'form-control'
+                class: 'form-control',
+                requiredField: 'required',
+                required: false
             });
         },
         textareaField: function textareaField() {
@@ -47794,7 +47812,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 placeholder: 'Placeholder',
                 name: 'name',
                 rows: '5',
-                class: 'form-control'
+                class: 'form-control',
+                requiredField: 'required',
+                required: false
             });
         },
         submitButton: function submitButton() {
@@ -47803,6 +47823,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 type: 'submit',
                 class: 'btn btn-primary',
                 text: 'Enter Text'
+            });
+        },
+        headerField: function headerField() {
+            this.form.push({
+                input: 'h2',
+                type: 'submit',
+                text: 'Header'
+            });
+        },
+        paragraphField: function paragraphField() {
+            this.form.push({
+                input: 'p',
+                textarea: 'Paragraph'
             });
         },
         clearField: function clearField(field, index) {
@@ -47859,6 +47892,9 @@ var render = function() {
                   _c("label", { staticClass: "control-label" }, [
                     _vm._v(_vm._s(field.label))
                   ]),
+                  field.required
+                    ? _c("span", { staticClass: "asterisk" }, [_vm._v("*")])
+                    : _vm._e(),
                   _vm._v(" "),
                   _c("span", { staticClass: "float-right" }, [
                     _c(
@@ -47891,6 +47927,14 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
+                  field.input === "h2"
+                    ? [_c("h2", [_vm._v(_vm._s(field.text))])]
+                    : _vm._e(),
+                  _vm._v(" "),
+                  field.input === "p"
+                    ? [_c("p", [_vm._v(_vm._s(field.textarea))])]
+                    : _vm._e(),
+                  _vm._v(" "),
                   field.input === "input"
                     ? [
                         _c("input", {
@@ -47898,7 +47942,8 @@ var render = function() {
                           attrs: {
                             type: field.type,
                             name: field.name,
-                            placeholder: field.placeholder
+                            placeholder: field.placeholder,
+                            required: field.required
                           }
                         })
                       ]
@@ -47911,7 +47956,8 @@ var render = function() {
                           attrs: {
                             name: field.name,
                             rows: field.rows,
-                            placeholder: field.placeholder
+                            placeholder: field.placeholder,
+                            required: field.required
                           }
                         })
                       ]
@@ -47935,9 +47981,46 @@ var render = function() {
                     },
                     [
                       _c("div", { staticClass: "card card-body" }, [
-                        field.input != "button"
-                          ? _c("div", { staticClass: "form-row" }, [
+                        field.textarea
+                          ? _c("div", { staticClass: "form-group" }, [
+                              _c("label", { staticClass: "f10" }, [
+                                _vm._v("Paragraph Text")
+                              ]),
+                              _vm._v(" "),
                               _c(
+                                "textarea",
+                                {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: field.textarea,
+                                      expression: "field.textarea"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  domProps: { value: field.textarea },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        field,
+                                        "textarea",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                },
+                                [_vm._v(_vm._s(field.textarea))]
+                              )
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-row" }, [
+                          field.label
+                            ? _c(
                                 "div",
                                 { staticClass: "form-group col-md-6" },
                                 [
@@ -47974,9 +48057,11 @@ var render = function() {
                                     }
                                   })
                                 ]
-                              ),
-                              _vm._v(" "),
-                              _c(
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          field.placeholder
+                            ? _c(
                                 "div",
                                 { staticClass: "form-group col-md-6" },
                                 [
@@ -48014,54 +48099,64 @@ var render = function() {
                                   })
                                 ]
                               )
-                            ])
-                          : _vm._e(),
+                            : _vm._e()
+                        ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "form-row" }, [
-                          _c("div", { staticClass: "form-group col-md-4" }, [
-                            _c("label", { staticClass: "f10" }, [
-                              _vm._v("Input Type "),
-                              _c(
-                                "span",
-                                {
-                                  staticClass: "pointer blue",
-                                  attrs: {
-                                    id: "example",
-                                    "data-toggle": "inputType"
-                                  },
-                                  on: { mouseover: _vm.helper }
-                                },
-                                [_vm._v("?")]
+                          field.type
+                            ? _c(
+                                "div",
+                                { staticClass: "form-group col-md-4" },
+                                [
+                                  _c("label", { staticClass: "f10" }, [
+                                    _vm._v("Input Type "),
+                                    _c(
+                                      "span",
+                                      {
+                                        staticClass: "pointer blue",
+                                        attrs: {
+                                          id: "example",
+                                          "data-toggle": "inputType"
+                                        },
+                                        on: { mouseover: _vm.helper }
+                                      },
+                                      [_vm._v("?")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: field.type,
+                                        expression: "field.type"
+                                      }
+                                    ],
+                                    staticClass: "form-control form-control-sm",
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "Enter type here"
+                                    },
+                                    domProps: { value: field.type },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          field,
+                                          "type",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]
                               )
-                            ]),
-                            _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: field.type,
-                                  expression: "field.type"
-                                }
-                              ],
-                              staticClass: "form-control form-control-sm",
-                              attrs: {
-                                type: "text",
-                                placeholder: "Enter type here"
-                              },
-                              domProps: { value: field.type },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(field, "type", $event.target.value)
-                                }
-                              }
-                            })
-                          ]),
+                            : _vm._e(),
                           _vm._v(" "),
-                          field.input === "textarea"
+                          field.rows
                             ? _c(
                                 "div",
                                 { staticClass: "form-group col-md-4" },
@@ -48143,7 +48238,7 @@ var render = function() {
                               )
                             : _vm._e(),
                           _vm._v(" "),
-                          field.input != "button"
+                          field.name
                             ? _c(
                                 "div",
                                 { staticClass: "form-group col-md-4" },
@@ -48196,37 +48291,112 @@ var render = function() {
                               )
                             : _vm._e(),
                           _vm._v(" "),
-                          _c("div", { staticClass: "form-group col-md-4" }, [
-                            _c("label", { staticClass: "f10" }, [
-                              _vm._v("Input Class")
-                            ]),
-                            _vm._v(" "),
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: field.class,
-                                  expression: "field.class"
-                                }
-                              ],
-                              staticClass: "form-control form-control-sm",
-                              attrs: {
-                                type: "text",
-                                placeholder: "Enter class here"
-                              },
-                              domProps: { value: field.class },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
+                          field.class
+                            ? _c(
+                                "div",
+                                { staticClass: "form-group col-md-4" },
+                                [
+                                  _c("label", { staticClass: "f10" }, [
+                                    _vm._v("Input Class")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: field.class,
+                                        expression: "field.class"
+                                      }
+                                    ],
+                                    staticClass: "form-control form-control-sm",
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "Enter class here"
+                                    },
+                                    domProps: { value: field.class },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          field,
+                                          "class",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]
+                              )
+                            : _vm._e()
+                        ]),
+                        _vm._v(" "),
+                        field.requiredField
+                          ? _c(
+                              "div",
+                              { staticClass: "form-group form-check" },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: field.required,
+                                      expression: "field.required"
+                                    }
+                                  ],
+                                  staticClass: "form-check-input",
+                                  attrs: { type: "checkbox", id: "required" },
+                                  domProps: {
+                                    checked: Array.isArray(field.required)
+                                      ? _vm._i(field.required, null) > -1
+                                      : field.required
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      var $$a = field.required,
+                                        $$el = $event.target,
+                                        $$c = $$el.checked ? true : false
+                                      if (Array.isArray($$a)) {
+                                        var $$v = null,
+                                          $$i = _vm._i($$a, $$v)
+                                        if ($$el.checked) {
+                                          $$i < 0 &&
+                                            _vm.$set(
+                                              field,
+                                              "required",
+                                              $$a.concat([$$v])
+                                            )
+                                        } else {
+                                          $$i > -1 &&
+                                            _vm.$set(
+                                              field,
+                                              "required",
+                                              $$a
+                                                .slice(0, $$i)
+                                                .concat($$a.slice($$i + 1))
+                                            )
+                                        }
+                                      } else {
+                                        _vm.$set(field, "required", $$c)
+                                      }
+                                    }
                                   }
-                                  _vm.$set(field, "class", $event.target.value)
-                                }
-                              }
-                            })
-                          ])
-                        ])
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "form-check-label f10",
+                                    attrs: { for: "required" }
+                                  },
+                                  [_vm._v(_vm._s(field.requiredField))]
+                                )
+                              ]
+                            )
+                          : _vm._e()
                       ])
                     ]
                   )
@@ -48244,7 +48414,7 @@ var render = function() {
             "li",
             {
               staticClass: "list-group-item pointer",
-              on: { click: _vm.textField }
+              on: { click: _vm.headerField }
             },
             [
               _c("i", { staticClass: "fas fa-arrow-left" }),
@@ -48257,7 +48427,7 @@ var render = function() {
             "li",
             {
               staticClass: "list-group-item pointer",
-              on: { click: _vm.textareaField }
+              on: { click: _vm.paragraphField }
             },
             [
               _c("i", { staticClass: "fas fa-arrow-left" }),
@@ -48270,12 +48440,38 @@ var render = function() {
             "li",
             {
               staticClass: "list-group-item pointer",
-              on: { click: _vm.submitButton }
+              on: { click: _vm.textField }
             },
             [
               _c("i", { staticClass: "fas fa-arrow-left" }),
               _vm._v(" "),
               _vm._m(2)
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "li",
+            {
+              staticClass: "list-group-item pointer",
+              on: { click: _vm.textareaField }
+            },
+            [
+              _c("i", { staticClass: "fas fa-arrow-left" }),
+              _vm._v(" "),
+              _vm._m(3)
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "li",
+            {
+              staticClass: "list-group-item pointer",
+              on: { click: _vm.submitButton }
+            },
+            [
+              _c("i", { staticClass: "fas fa-arrow-left" }),
+              _vm._v(" "),
+              _vm._m(4)
             ]
           )
         ]),
@@ -48306,7 +48502,25 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "pl-5" }, [
-      _c("i", { staticClass: "fas fa-font" }),
+      _c("i", { staticClass: "fas fa-heading" }),
+      _vm._v(" Header Field")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "pl-5" }, [
+      _c("i", { staticClass: "fas fa-paragraph" }),
+      _vm._v(" Paragraph Field")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "pl-5" }, [
+      _c("i", { staticClass: "fas fa-i-cursor" }),
       _vm._v(" Text Field")
     ])
   },
@@ -48324,7 +48538,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "pl-5" }, [
-      _c("i", { staticClass: "fas fa-power-off" }),
+      _c("button", { staticClass: "btn btn-secondary btn-sm" }),
       _vm._v(" Button")
     ])
   }
