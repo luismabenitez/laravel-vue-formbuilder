@@ -2,18 +2,66 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 p-4" style="height:auto;background-color:#ffffff;">
+                <h4 class="text-muted text-center mt-5" v-if="!form.length">DRAG FIELDS HERE</h4>
                 <form>
-                    <div class='form-group' v-for="field in form" v-html="field"></div>
+                    <div class='form-group' v-for="(field, index) in form">
+                        <label class='control-label'>{{ field.label }}</label>
+                        <span class="float-right">
+                            <a data-toggle='collapse' :href='"#" + index' role='button' aria-expanded='false'><i class="fas fa-edit"></i></a>
+                        </span>
+                        <template v-if="field.input === 'input'">
+                            <input :type="field.type" :name="field.name" :class="field.class" :placeholder="field.placeholder">
+                        </template>
+                        <template v-if="field.input === 'textarea'">
+                            <textarea :name="field.name" :rows="field.rows" :class="field.class" :placeholder="field.placeholder"></textarea>
+                        </template>
+                        <template v-if="field.input === 'button'">
+                            <button :type="field.name" :class="field.class">{{ field.text }}</button>
+                        </template>
+                        <div class='collapse multi-collapse' :id='index'>
+                            <div class='card card-body'>
+                                <div class="form-row" v-if="field.input != 'button'">
+                                    <div class="form-group col-md-6">
+                                        <label class="f10">Input Label</label>
+                                        <input type='text' class='form-control form-control-sm' placeholder='Enter label here' v-model='field.label' >
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="f10">Input Placeholder</label>
+                                        <input type='text' class='form-control form-control-sm' placeholder='Enter placeholder here' v-model='field.placeholder' >
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label class="f10">Input Type (Text, email)</label>
+                                        <input type='text' class='form-control form-control-sm' placeholder='Enter type here' v-model='field.type' >
+                                    </div>
+                                    <div class="form-group col-md-4" v-if="field.input === 'textarea'">
+                                        <label class="f10">Rows</label>
+                                        <input type='text' class='form-control form-control-sm' placeholder='Enter rows here' v-model='field.rows' >
+                                    </div>
+                                    <div class="form-group col-md-4" v-if="field.text">
+                                        <label class="f10">Text</label>
+                                        <input type='text' class='form-control form-control-sm' placeholder='Enter text here' v-model='field.text' >
+                                    </div>
+                                    <div class="form-group col-md-4" v-if="field.input != 'button'">
+                                        <label class="f10">Input Name</label>
+                                        <input type='text' class='form-control form-control-sm' placeholder='Enter name here' v-model='field.name' >
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="f10">Input Class</label>
+                                        <input type='text' class='form-control form-control-sm' placeholder='Enter class here' v-model='field.class' >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="col-md-4">
                 <ul class="list-group">
-                    <li class="list-group-item pointer" @click="firstNameField"><i class="fas fa-arrow-left"></i> <span class="pl-5"><i class="fas fa-user"></i> First Name</span></li>
-                    <li class="list-group-item pointer" @click="lastNameField"><i class="fas fa-arrow-left"></i> <span class="pl-5"><i class="fas fa-user"></i> Last Name</span></li>
-                    <li class="list-group-item pointer" @click="phoneField"><i class="fas fa-arrow-left"></i> <span class="pl-5"><i class="fas fa-phone"></i> Phone Number</span></li>
-                    <li class="list-group-item pointer" @click="emailField"><i class="fas fa-arrow-left"></i> <span class="pl-5"><i class="fas fa-envelope"></i> Email Address</span></li>
-                    <li class="list-group-item pointer" @click="messageField"><i class="fas fa-arrow-left"></i> <span class="pl-5"><i class="fas fa-comment-alt"></i> Message</span></li>
-                    <li class="list-group-item pointer" @click="submitButton"><i class="fas fa-arrow-left"></i> <span class="pl-5"><i class="fas fa-save"></i> Button</span></li>
+                    <li class="list-group-item pointer" @click="textField"><i class="fas fa-arrow-left"></i> <span class="pl-5"><i class="fas fa-font"></i> Text Field</span></li>
+                    <li class="list-group-item pointer" @click="textareaField"><i class="fas fa-arrow-left"></i> <span class="pl-5"><i class="fas fa-align-center"></i> Textarea Field</span></li>
+                    <li class="list-group-item pointer" @click="submitButton"><i class="fas fa-arrow-left"></i> <span class="pl-5"><i class="fas fa-power-off"></i> Button</span></li>
                 </ul>
                 <button class="btn btn-primary btn-sm float-right mt-2" @click.prevent="clearForm"><i class="far fa-times-circle"></i> Clear Form</button>
             </div>
@@ -25,33 +73,37 @@
     export default {
         data () {
             return {
-                form: []
+                form: [],
             }
         },
         methods: {
-            firstNameField () {
-                let html = "<label class='control-label'>First Name</label><input type='text' placeholder='First Name' class='form-control' name='first'>"
-                this.form.push(html)
+            textField () {
+                this.form.push({
+                    input: 'input',
+                    label: 'Label',
+                    placeholder: 'Placeholder',
+                    type: 'text',
+                    name: 'name',
+                    class: 'form-control'
+                })
             },
-            lastNameField () {
-                let html = "<label class='control-label'>Last Name</label><input type='text' placeholder='Last Name' class='form-control' name='last'>"
-                this.form.push(html)
-            },
-            phoneField () {
-                let html = "<label class='control-label'>Phone Number</label><input type='tel' placeholder='Phone Number' class='form-control' name='phone'>"
-                this.form.push(html)
-            },
-            emailField () {
-                let html = "<label class='control-label'>Email</label><input type='email' placeholder='Email' class='form-control' name='email'>"
-                this.form.push(html)
-            },
-            messageField () {
-                let html = "<label class='control-label'>Message</label><textarea placeholder='Message' class='form-control' name='message' rows='8'></textarea>"
-                this.form.push(html)
+            textareaField () {
+                this.form.push({
+                    input: 'textarea',
+                    label: 'Label',
+                    placeholder: 'Placeholder',
+                    name: 'name',
+                    rows: '5',
+                    class: 'form-control'
+                })
             },
             submitButton () {
-                let html = "<button class='btn btn-primary'>Submit</button>"
-                this.form.push(html)
+                this.form.push({
+                    input: 'button',
+                    type: 'submit',
+                    class: 'btn btn-primary',
+                    text: 'Enter Text'
+                })
             },
             clearForm () {
                 this.form = []
@@ -63,5 +115,8 @@
 <style>
     .pointer {
         cursor: pointer;
+    }
+    .f10 {
+        font-size:10px;
     }
 </style>

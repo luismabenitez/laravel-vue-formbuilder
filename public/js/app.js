@@ -13867,7 +13867,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(12);
-module.exports = __webpack_require__(43);
+module.exports = __webpack_require__(48);
 
 
 /***/ }),
@@ -47154,13 +47154,13 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(50)
+  __webpack_require__(40)
 }
-var normalizeComponent = __webpack_require__(40)
+var normalizeComponent = __webpack_require__(45)
 /* script */
-var __vue_script__ = __webpack_require__(41)
+var __vue_script__ = __webpack_require__(46)
 /* template */
-var __vue_template__ = __webpack_require__(42)
+var __vue_template__ = __webpack_require__(47)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -47200,385 +47200,46 @@ module.exports = Component.exports
 
 /***/ }),
 /* 40 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-/* globals __VUE_SSR_CONTEXT__ */
+// style-loader: Adds some css to the DOM by adding a <style> tag
 
-// IMPORTANT: Do NOT use ES2015 features in this file.
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier /* server only */
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
-
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = injectStyles
-  }
-
-  if (hook) {
-    var functional = options.functional
-    var existing = functional
-      ? options.render
-      : options.beforeCreate
-
-    if (!functional) {
-      // inject component registration as beforeCreate hook
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    } else {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return existing(h, context)
-      }
-    }
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
+// load the styles
+var content = __webpack_require__(41);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(43)("d11deaa2", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-63365360\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilder.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-63365360\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilder.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
 }
-
 
 /***/ }),
 /* 41 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+exports = module.exports = __webpack_require__(42)(false);
+// imports
 
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            form: []
-        };
-    },
 
-    methods: {
-        firstNameField: function firstNameField() {
-            var html = "<label class='control-label'>First Name</label><input type='text' placeholder='First Name' class='form-control' name='first'>";
-            this.form.push(html);
-        },
-        lastNameField: function lastNameField() {
-            var html = "<label class='control-label'>Last Name</label><input type='text' placeholder='Last Name' class='form-control' name='last'>";
-            this.form.push(html);
-        },
-        phoneField: function phoneField() {
-            var html = "<label class='control-label'>Phone Number</label><input type='tel' placeholder='Phone Number' class='form-control' name='phone'>";
-            this.form.push(html);
-        },
-        emailField: function emailField() {
-            var html = "<label class='control-label'>Email</label><input type='email' placeholder='Email' class='form-control' name='email'>";
-            this.form.push(html);
-        },
-        messageField: function messageField() {
-            var html = "<label class='control-label'>Message</label><textarea placeholder='Message' class='form-control' name='message' rows='8'></textarea>";
-            this.form.push(html);
-        },
-        submitButton: function submitButton() {
-            var html = "<button class='btn btn-primary'>Submit</button>";
-            this.form.push(html);
-        },
-        clearForm: function clearForm() {
-            this.form = [];
-        }
-    }
-});
+// module
+exports.push([module.i, "\n.pointer {\n    cursor: pointer;\n}\n.f10 {\n    font-size:10px;\n}\n", ""]);
+
+// exports
+
 
 /***/ }),
 /* 42 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row" }, [
-      _c(
-        "div",
-        {
-          staticClass: "col-md-6 p-4",
-          staticStyle: { height: "auto", "background-color": "#ffffff" }
-        },
-        [
-          _c(
-            "form",
-            _vm._l(_vm.form, function(field) {
-              return _c("div", {
-                staticClass: "form-group",
-                domProps: { innerHTML: _vm._s(field) }
-              })
-            })
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-4" }, [
-        _c("ul", { staticClass: "list-group" }, [
-          _c(
-            "li",
-            {
-              staticClass: "list-group-item pointer",
-              on: { click: _vm.firstNameField }
-            },
-            [
-              _c("i", { staticClass: "fas fa-arrow-left" }),
-              _vm._v(" "),
-              _vm._m(0)
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            {
-              staticClass: "list-group-item pointer",
-              on: { click: _vm.lastNameField }
-            },
-            [
-              _c("i", { staticClass: "fas fa-arrow-left" }),
-              _vm._v(" "),
-              _vm._m(1)
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            {
-              staticClass: "list-group-item pointer",
-              on: { click: _vm.phoneField }
-            },
-            [
-              _c("i", { staticClass: "fas fa-arrow-left" }),
-              _vm._v(" "),
-              _vm._m(2)
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            {
-              staticClass: "list-group-item pointer",
-              on: { click: _vm.emailField }
-            },
-            [
-              _c("i", { staticClass: "fas fa-arrow-left" }),
-              _vm._v(" "),
-              _vm._m(3)
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            {
-              staticClass: "list-group-item pointer",
-              on: { click: _vm.messageField }
-            },
-            [
-              _c("i", { staticClass: "fas fa-arrow-left" }),
-              _vm._v(" "),
-              _vm._m(4)
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            {
-              staticClass: "list-group-item pointer",
-              on: { click: _vm.submitButton }
-            },
-            [
-              _c("i", { staticClass: "fas fa-arrow-left" }),
-              _vm._v(" "),
-              _vm._m(5)
-            ]
-          )
-        ]),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-primary btn-sm float-right mt-2",
-            on: {
-              click: function($event) {
-                $event.preventDefault()
-                return _vm.clearForm($event)
-              }
-            }
-          },
-          [
-            _c("i", { staticClass: "far fa-times-circle" }),
-            _vm._v(" Clear Form")
-          ]
-        )
-      ])
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "pl-5" }, [
-      _c("i", { staticClass: "fas fa-user" }),
-      _vm._v(" First Name")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "pl-5" }, [
-      _c("i", { staticClass: "fas fa-user" }),
-      _vm._v(" Last Name")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "pl-5" }, [
-      _c("i", { staticClass: "fas fa-phone" }),
-      _vm._v(" Phone Number")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "pl-5" }, [
-      _c("i", { staticClass: "fas fa-envelope" }),
-      _vm._v(" Email Address")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "pl-5" }, [
-      _c("i", { staticClass: "fas fa-comment-alt" }),
-      _vm._v(" Message")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "pl-5" }, [
-      _c("i", { staticClass: "fas fa-save" }),
-      _vm._v(" Button")
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-63365360", module.exports)
-  }
-}
-
-/***/ }),
-/* 43 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 44 */,
-/* 45 */
 /***/ (function(module, exports) {
 
 /*
@@ -47660,51 +47321,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(51);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(52)("d11deaa2", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-63365360\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilder.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-63365360\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormBuilder.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 51 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(45)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.pointer {\n    cursor: pointer;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 52 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -47723,7 +47340,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(53)
+var listToStyles = __webpack_require__(44)
 
 /*
 type StyleObject = {
@@ -47932,7 +47549,7 @@ function applyToTag (styleElement, obj) {
 
 
 /***/ }),
-/* 53 */
+/* 44 */
 /***/ (function(module, exports) {
 
 /**
@@ -47963,6 +47580,713 @@ module.exports = function listToStyles (parentId, list) {
   return styles
 }
 
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports) {
+
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file.
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier /* server only */
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = injectStyles
+  }
+
+  if (hook) {
+    var functional = options.functional
+    var existing = functional
+      ? options.render
+      : options.beforeCreate
+
+    if (!functional) {
+      // inject component registration as beforeCreate hook
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    } else {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return existing(h, context)
+      }
+    }
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+/* 46 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            form: []
+        };
+    },
+
+    methods: {
+        textField: function textField() {
+            this.form.push({
+                input: 'input',
+                label: 'Label',
+                placeholder: 'Placeholder',
+                type: 'text',
+                name: 'name',
+                class: 'form-control'
+            });
+        },
+        textareaField: function textareaField() {
+            this.form.push({
+                input: 'textarea',
+                label: 'Label',
+                placeholder: 'Placeholder',
+                name: 'name',
+                rows: '5',
+                class: 'form-control'
+            });
+        },
+        submitButton: function submitButton() {
+            this.form.push({
+                input: 'button',
+                type: 'submit',
+                class: 'btn btn-primary',
+                text: 'Enter Text'
+            });
+        },
+        clearForm: function clearForm() {
+            this.form = [];
+        }
+    }
+});
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        {
+          staticClass: "col-md-6 p-4",
+          staticStyle: { height: "auto", "background-color": "#ffffff" }
+        },
+        [
+          !_vm.form.length
+            ? _c("h4", { staticClass: "text-muted text-center mt-5" }, [
+                _vm._v("DRAG FIELDS HERE")
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c(
+            "form",
+            _vm._l(_vm.form, function(field, index) {
+              return _c(
+                "div",
+                { staticClass: "form-group" },
+                [
+                  _c("label", { staticClass: "control-label" }, [
+                    _vm._v(_vm._s(field.label))
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "float-right" }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: {
+                          "data-toggle": "collapse",
+                          href: "#" + index,
+                          role: "button",
+                          "aria-expanded": "false"
+                        }
+                      },
+                      [_c("i", { staticClass: "fas fa-edit" })]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  field.input === "input"
+                    ? [
+                        _c("input", {
+                          class: field.class,
+                          attrs: {
+                            type: field.type,
+                            name: field.name,
+                            placeholder: field.placeholder
+                          }
+                        })
+                      ]
+                    : _vm._e(),
+                  _vm._v(" "),
+                  field.input === "textarea"
+                    ? [
+                        _c("textarea", {
+                          class: field.class,
+                          attrs: {
+                            name: field.name,
+                            rows: field.rows,
+                            placeholder: field.placeholder
+                          }
+                        })
+                      ]
+                    : _vm._e(),
+                  _vm._v(" "),
+                  field.input === "button"
+                    ? [
+                        _c(
+                          "button",
+                          { class: field.class, attrs: { type: field.name } },
+                          [_vm._v(_vm._s(field.text))]
+                        )
+                      ]
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "collapse multi-collapse",
+                      attrs: { id: index }
+                    },
+                    [
+                      _c("div", { staticClass: "card card-body" }, [
+                        field.input != "button"
+                          ? _c("div", { staticClass: "form-row" }, [
+                              _c(
+                                "div",
+                                { staticClass: "form-group col-md-6" },
+                                [
+                                  _c("label", { staticClass: "f10" }, [
+                                    _vm._v("Input Label")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: field.label,
+                                        expression: "field.label"
+                                      }
+                                    ],
+                                    staticClass: "form-control form-control-sm",
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "Enter label here"
+                                    },
+                                    domProps: { value: field.label },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          field,
+                                          "label",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "form-group col-md-6" },
+                                [
+                                  _c("label", { staticClass: "f10" }, [
+                                    _vm._v("Input Placeholder")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: field.placeholder,
+                                        expression: "field.placeholder"
+                                      }
+                                    ],
+                                    staticClass: "form-control form-control-sm",
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "Enter placeholder here"
+                                    },
+                                    domProps: { value: field.placeholder },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          field,
+                                          "placeholder",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]
+                              )
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-row" }, [
+                          _c("div", { staticClass: "form-group col-md-4" }, [
+                            _c("label", { staticClass: "f10" }, [
+                              _vm._v("Input Type (Text, email)")
+                            ]),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: field.type,
+                                  expression: "field.type"
+                                }
+                              ],
+                              staticClass: "form-control form-control-sm",
+                              attrs: {
+                                type: "text",
+                                placeholder: "Enter type here"
+                              },
+                              domProps: { value: field.type },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(field, "type", $event.target.value)
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          field.input === "textarea"
+                            ? _c(
+                                "div",
+                                { staticClass: "form-group col-md-4" },
+                                [
+                                  _c("label", { staticClass: "f10" }, [
+                                    _vm._v("Rows")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: field.rows,
+                                        expression: "field.rows"
+                                      }
+                                    ],
+                                    staticClass: "form-control form-control-sm",
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "Enter rows here"
+                                    },
+                                    domProps: { value: field.rows },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          field,
+                                          "rows",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          field.text
+                            ? _c(
+                                "div",
+                                { staticClass: "form-group col-md-4" },
+                                [
+                                  _c("label", { staticClass: "f10" }, [
+                                    _vm._v("Text")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: field.text,
+                                        expression: "field.text"
+                                      }
+                                    ],
+                                    staticClass: "form-control form-control-sm",
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "Enter text here"
+                                    },
+                                    domProps: { value: field.text },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          field,
+                                          "text",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          field.input != "button"
+                            ? _c(
+                                "div",
+                                { staticClass: "form-group col-md-4" },
+                                [
+                                  _c("label", { staticClass: "f10" }, [
+                                    _vm._v("Input Name")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: field.name,
+                                        expression: "field.name"
+                                      }
+                                    ],
+                                    staticClass: "form-control form-control-sm",
+                                    attrs: {
+                                      type: "text",
+                                      placeholder: "Enter name here"
+                                    },
+                                    domProps: { value: field.name },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          field,
+                                          "name",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  })
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group col-md-4" }, [
+                            _c("label", { staticClass: "f10" }, [
+                              _vm._v("Input Class")
+                            ]),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: field.class,
+                                  expression: "field.class"
+                                }
+                              ],
+                              staticClass: "form-control form-control-sm",
+                              attrs: {
+                                type: "text",
+                                placeholder: "Enter class here"
+                              },
+                              domProps: { value: field.class },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(field, "class", $event.target.value)
+                                }
+                              }
+                            })
+                          ])
+                        ])
+                      ])
+                    ]
+                  )
+                ],
+                2
+              )
+            })
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-4" }, [
+        _c("ul", { staticClass: "list-group" }, [
+          _c(
+            "li",
+            {
+              staticClass: "list-group-item pointer",
+              on: { click: _vm.textField }
+            },
+            [
+              _c("i", { staticClass: "fas fa-arrow-left" }),
+              _vm._v(" "),
+              _vm._m(0)
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "li",
+            {
+              staticClass: "list-group-item pointer",
+              on: { click: _vm.textareaField }
+            },
+            [
+              _c("i", { staticClass: "fas fa-arrow-left" }),
+              _vm._v(" "),
+              _vm._m(1)
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "li",
+            {
+              staticClass: "list-group-item pointer",
+              on: { click: _vm.submitButton }
+            },
+            [
+              _c("i", { staticClass: "fas fa-arrow-left" }),
+              _vm._v(" "),
+              _vm._m(2)
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary btn-sm float-right mt-2",
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.clearForm($event)
+              }
+            }
+          },
+          [
+            _c("i", { staticClass: "far fa-times-circle" }),
+            _vm._v(" Clear Form")
+          ]
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "pl-5" }, [
+      _c("i", { staticClass: "fas fa-font" }),
+      _vm._v(" Text Field")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "pl-5" }, [
+      _c("i", { staticClass: "fas fa-align-center" }),
+      _vm._v(" Textarea Field")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "pl-5" }, [
+      _c("i", { staticClass: "fas fa-power-off" }),
+      _vm._v(" Button")
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-63365360", module.exports)
+  }
+}
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
