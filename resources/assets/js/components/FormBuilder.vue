@@ -46,7 +46,7 @@
                                     </div>
                                 </div>
                                 <div class="form-row">
-                                    <div class="flex mt-2">
+                                    <div class="flex mt-2" v-if="field.types">
                                         <label class="w-1/3">Type</label>
                                         <select class='py-1 px-4 w-2/3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300' v-model='field.type'>
                                             <option value="">Choose type:</option>
@@ -81,15 +81,36 @@
             </div>
             <div class="flex flex-col w-1/3">
                 <ul class="rounded-lg overflow-hidden shadow">
-                    <li class="bg-white px-2 py-2 shadow cursor-pointer" @click="headerField"><i class="fas fa-arrow-left"></i> <span class="pl-5"><i class="fas fa-heading"></i> Header Field</span></li>
-                    <li class="bg-white px-2 py-2 shadow cursor-pointer" @click="paragraphField"><i class="fas fa-arrow-left"></i> <span class="pl-5"><i class="fas fa-paragraph"></i> Paragraph Field</span></li>
-                    <li class="bg-white px-2 py-2 shadow cursor-pointer" @click="textField"><i class="fas fa-arrow-left"></i> <span class="pl-5"><i class="fas fa-i-cursor"></i> Text Field</span></li>
-                    <li class="bg-white px-2 py-2 shadow cursor-pointer" @click="textareaField"><i class="fas fa-arrow-left"></i> <span class="pl-5"><i class="fas fa-align-center"></i> Textarea Field</span></li>
-                    <li class="bg-white px-2 py-2 shadow cursor-pointer" @click="submitButton"><i class="fas fa-arrow-left"></i> <span class="pl-5"><button class="btn btn-secondary btn-sm"></button> Button</span></li>
+                    <li class="flex items-center bg-white px-2 py-2 shadow cursor-pointer hover:bg-gray-200" @click="headerField">
+                        <i class="w-1/6 text-gray-400 fas fa-arrow-left"></i> 
+                        <i class="w-1/6 fas fa-heading text-center"></i> 
+                        <p class="w-full">Header Field</p>
+                    </li>
+                    <li class="flex items-center bg-white px-2 py-2 shadow cursor-pointer hover:bg-gray-200" @click="paragraphField">
+                        <i class="w-1/6 text-gray-400 fas fa-arrow-left"></i>
+                        <i class="w-1/6 fas fa-paragraph text-center"></i> 
+                        <p class="w-full">Paragraph Field</p>
+                    </li>
+                    <li class="flex items-center bg-white px-2 py-2 shadow cursor-pointer hover:bg-gray-200" @click="textField">
+                        <i class="w-1/6 text-gray-400 fas fa-arrow-left"></i> 
+                        <i class="w-1/6 fas fa-i-cursor text-center"></i> 
+                        <p class="w-full">Text Field</p>
+                    </li>
+                    <li class="flex items-center bg-white px-2 py-2 shadow cursor-pointer hover:bg-gray-200" @click="textareaField">
+                        <i class="w-1/6 text-gray-400 fas fa-arrow-left"></i>
+                        <i class="w-1/6 fas fa-align-center text-center text-center"></i>
+                        <p class="w-full">Textarea Field</p>
+                    </li>
+                    <li class="flex items-center bg-white px-2 py-2 shadow cursor-pointer hover:bg-gray-200" @click="submitButton">
+                        <i class="w-1/6 text-gray-400 fas fa-arrow-left"></i> 
+                        <span class="w-1/6"></span>
+                        <p class="w-full">Button</p>
+                    </li>
                 </ul>
                 <button class="bg-blue-200 px-2 py-2 rounded-lg shadow mt-2 focus:outline-none hover:bg-blue-300" @click.prevent="clearForm"><i class="far fa-times-circle"></i> Clear Form</button>
             </div>
         </div>
+        <pre class="text-xs">{{ JSON.stringify(form, null, '\t') }}</pre>
     </div>
 </template>
 
@@ -109,6 +130,7 @@
                     label: 'Label',
                     placeholder: 'Placeholder',
                     types: ['text', 'email', 'tel', 'date', 'number'],
+                    type: 'text',
                     name: 'text-' + Math.floor(100000 + Math.random() * 900000),
                     class: 'py-1 px-4 w-full border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300',
                     requiredField: 'required',
@@ -132,14 +154,16 @@
                 this.form.push({
                     input: 'button',
                     types: ['button', 'submit'],
-                    class: 'bg-blue-200 px-4 py-1 rounded-lg shadow mt-2 focus:outline-none hover:bg-blue-300',
-                    text: 'Enter Text'
+                    type: 'submit',
+                    class: 'bg-blue-200 px-4 py-2 rounded shadow mt-2 focus:outline-none hover:bg-blue-300',
+                    text: 'Submit'
                 })
             },
             headerField () {
                 this.form.push({
                     input: 'header',
                     types: ['h1', 'h2', 'h3', 'h4'],
+                    type: 'h1',
                     text: 'Header'
                 })
             },
